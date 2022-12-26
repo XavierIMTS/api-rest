@@ -20,6 +20,7 @@ class Produits{
      */
     public function __construct($db){
         $this->connexion = $db;
+        $this->created_at = time();
     }
 
     /**
@@ -27,7 +28,8 @@ class Produits{
      *
      * @return void
      */
-    public function lire(){
+    public function lire()
+    {
         // On écrit la requête
         $sql = "SELECT c.nom as categories_nom, p.id, p.nom, p.description, p.prix, p.categories_id, p.created_at FROM " . $this->table . " p LEFT JOIN categories c ON p.categories_id = c.id ORDER BY p.created_at DESC";
 
@@ -46,7 +48,8 @@ class Produits{
      *
      * @return void
      */
-    public function creer(){
+    public function creer():bool
+    {
 
         // Ecriture de la requête SQL en y insérant le nom de la table
         $sql = "INSERT INTO " . $this->table . " SET nom=:nom, prix=:prix, description=:description, categories_id=:categories_id, created_at=:created_at";
@@ -59,7 +62,7 @@ class Produits{
         $this->prix=htmlspecialchars(strip_tags($this->prix));
         $this->description=htmlspecialchars(strip_tags($this->description));
         $this->categories_id=htmlspecialchars(strip_tags($this->categories_id));
-        $this->created_at=htmlspecialchars(strip_tags($this->created_at));
+        //$this->created_at=htmlspecialchars(strip_tags($this->created_at));
 
         // Ajout des données protégées
         $query->bindParam(":nom", $this->nom);
@@ -80,7 +83,8 @@ class Produits{
      *
      * @return void
      */
-    public function lireUn(){
+    public function lireUn():void
+    {
         // On écrit la requête
         $sql = "SELECT c.nom as categories_nom, p.id, p.nom, p.description, p.prix, p.categories_id, p.created_at FROM " . $this->table . " p LEFT JOIN categories c ON p.categories_id = c.id WHERE p.id = ? LIMIT 0,1";
 
@@ -102,6 +106,8 @@ class Produits{
         $this->description = $row['description'];
         $this->categories_id = $row['categories_id'];
         $this->categories_nom = $row['categories_nom'];
+
+       
     }
 
     /**
@@ -109,7 +115,8 @@ class Produits{
      *
      * @return void
      */
-    public function supprimer(){
+    public function supprimer():bool
+    {
         // On écrit la requête
         $sql = "DELETE FROM " . $this->table . " WHERE id = ?";
 

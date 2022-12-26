@@ -19,8 +19,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // On instancie les produits
     $produit = new Produits($db);
 
-    $donnees = json_decode(file_get_contents("php://input"));
-
+    // "php://input" est une commande de fichier virtuel qui récupère le json
+    $donnees = json_decode(file_get_contents("php://input")); 
+    var_dump($donnees);
+    
     if(!empty($donnees->id)){
         $produit->id = $donnees->id;
 
